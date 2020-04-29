@@ -1,0 +1,10 @@
+operator-sdk build docker.io/kuritka/memcached-operator:v0.0.1
+sed -i 's|REPLACE_IMAGE|docker.io/kuritka/memcached-operator:v0.0.1|g' deploy/operator.yaml
+docker push docker.io/kuritka/memcached-operator:v0.0.1
+
+
+
+kubectl apply -f deploy/service_account.yaml
+kubectl apply -f deploy/role.yaml
+kubectl apply -f deploy/role_binding.yaml
+kubectl apply -f deploy/operator.yaml
