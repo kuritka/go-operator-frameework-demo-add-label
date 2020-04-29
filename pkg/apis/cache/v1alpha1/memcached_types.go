@@ -15,6 +15,7 @@ type MemcachedSpec struct {
 
 	// Size is the size of the memcached deployment, SIZE , SIZE, SIZE!
 	Size int32 `json:"size"`
+	Interval int32 `json:"interval"`
 }
 
 // MemcachedStatus defines the observed state of Memcached

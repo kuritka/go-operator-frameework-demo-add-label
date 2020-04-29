@@ -5,3 +5,8 @@ metadata:
 spec:
   # Add fields here
   size: 4
+  interval: 10
+ttl:
+  ttl: 30
+txtExpiration:
+  threshold: 30

@@ -12,3 +12,5 @@ kubectl apply -f deploy/operator.yaml
 
 https://github.com/operator-framework/getting-started#build-and-run-the-operator
 https://github.com/operator-framework/operator-sdk/blob/master/doc/project_layout.md
+
+

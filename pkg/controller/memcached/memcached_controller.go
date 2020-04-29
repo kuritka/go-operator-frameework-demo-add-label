@@ -2,6 +2,7 @@ package memcached
 
 import (
 	"context"
+	"fmt"
 	"reflect"
 
 	cachev1alpha1 "github.com/example-inc/memcached-operator/pkg/apis/cache/v1alpha1"
@@ -137,6 +138,24 @@ func (r *ReconcileMemcached) Reconcile(request reconcile.Request) (reconcile.Res
 		// Spec updated - return and requeue
 		return reconcile.Result{Requeue: true}, nil
 	}
+
+	interval := memcached.Spec.Interval
+	reqLogger.Info("interval was found: %v", interval)
+	if found.Labels == nil {
+		found.Labels = make(map[string]string)
+	}
+	found.Labels["TXT"] = fmt.Sprintf("%d", interval)
+	err = r.client.Update(context.TODO(), found)
+	if err != nil {
+		reqLogger.Error(err, "Failed to update Deployment", "Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
+		return reconcile.Result{}, err
+	}
+	//found..Labels["TTL"] = fmt.Sprintf("%d",interval)
+	//err = r.client.Update(context.TODO(), found)
+	//if err != nil {
+	//	reqLogger.Error(err, "Failed to update Deployment", "Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
+	//	return reconcile.Result{}, err
+	//}
 
 	// Update the Memcached status with the pod names
 	// List the pods for this memcached's deployment
