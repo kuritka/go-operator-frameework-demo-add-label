@@ -53,6 +53,38 @@ spec:
           required:
           - nodes
           type: object
+        syncInterval:
+          description: DNS interval
+          properties:
+            interval:
+              description: External-dns sync interval to update etcd backend of coredns
+              format: int32
+              type: integer
+          required:
+          - interval
+          type: object
+        ttl:
+          description: MemcachedDnsTTL defines the ...
+          properties:
+            ttl:
+              description: How many seconds a resolver is supposed to cache DNS records
+              format: int32
+              type: integer
+          required:
+          - ttl
+          type: object
+        txtExpiration:
+          description: MemcachedSplitBrainThreshold defines the split brain threshold
+          properties:
+            threshold:
+              description: Defines split brain threshold in minutes
+              format: int32
+              type: integer
+          required:
+          - threshold
+          type: object
+      required:
+      - txtExpiration
       type: object
   version: v1alpha1
   versions:

@@ -25,6 +25,25 @@ type MemcachedStatus struct {
 	Nodes []string `json:"nodes"`
 }
 
+// MemcachedDnsTTL defines the ...
+type MemcachedDnsTTL struct {
+	// How many seconds a resolver is supposed to cache DNS records
+	Ttl int32 `json:"ttl"`
+}
+
+// MemcachedSplitBrainThreshold defines the split brain threshold
+type MemcachedSplitBrainThreshold struct {
+	// Defines split brain threshold in minutes
+	Threshold int32 `json:"threshold"`
+}
+
+// DNS interval
+type DnsInterval struct {
+	// External-dns sync interval to update etcd backend of coredns
+	Interval int32 `json:"interval"`
+}
+
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // Memcached is the Schema for the memcacheds API
@@ -34,10 +53,13 @@ type Memcached struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   MemcachedSpec   	`json:"spec,omitempty"`
-	Status MemcachedStatus 	`json:"status,omitempty"`
-	DnsInterval int			`json:"interval,omitempty"`
-	DnsTTL int				`json:"ttl,omitempty"`
+	Spec   MemcachedSpec        `json:"spec,omitempty"`
+	Status MemcachedStatus      `json:"status,omitempty"`
+
+	SyncInterval DnsInterval	`json:"syncInterval,omitempty"`
+	DnsTTL MemcachedDnsTTL	`json:"ttl,omitempty"`
+	SplitBrainThreshold MemcachedSplitBrainThreshold	`json:"txtExpiration"`
+
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
