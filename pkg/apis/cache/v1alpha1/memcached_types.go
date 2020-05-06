@@ -2,6 +2,8 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/kubernetes/pkg/util/env"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
@@ -15,7 +17,8 @@ type MemcachedSpec struct {
 
 	// Size is the size of the memcached deployment, SIZE , SIZE, SIZE!
 	Size int32 `json:"size"`
-	Interval int32 `json:"interval"`
+	Interval int32 `json:"interval,omitempty"`
+	Threshold int32 `json:"threshold,omitempty"`
 }
 
 // MemcachedStatus defines the observed state of Memcached
@@ -74,4 +77,8 @@ type MemcachedList struct {
 
 func init() {
 	SchemeBuilder.Register(&Memcached{}, &MemcachedList{})
+	reconcileSeconds,_ := env.GetEnvAsIntOrFallback("RECONCILE_REQUEUE_SECONDS", 25)
+	var log = logf.Log.WithName("controller_memcached")
+	log.Info("INIT   BLAAAH %v", reconcileSeconds )
+	log.Info("INIT", reconcileSeconds )
 }

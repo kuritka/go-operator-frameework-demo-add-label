@@ -24,6 +24,10 @@ import (
 )
 
 var log = logf.Log.WithName("controller_memcached")
+var setter = newStateSetter()
+
+func init(){
+}
 
 /**
 * USER ACTION REQUIRED: This is a scaffold file intended for the user to modify with their own Controller
@@ -71,13 +75,18 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 // blank assignment to verify that ReconcileMemcached implements reconcile.Reconciler
 var _ reconcile.Reconciler = &ReconcileMemcached{}
 
+type Settings struct {
+	EnvVar int
+}
+
 // ReconcileMemcached reconciles a Memcached object
 type ReconcileMemcached struct {
 	// TODO: Clarify the split client
 	// This client, initialized using mgr.Client() above, is a split client
 	// that reads objects from the cache and writes to the apiserver
-	client client.Client
-	scheme *runtime.Scheme
+	client   client.Client
+	scheme   *runtime.Scheme
+	settings Settings
 }
 
 // Reconcile reads that state of the cluster for a Memcached object and makes changes based on the state read
@@ -106,6 +115,10 @@ func (r *ReconcileMemcached) Reconcile(request reconcile.Request) (reconcile.Res
 		reqLogger.Error(err, "Failed to get Memcached")
 		return reconcile.Result{}, err
 	}
+
+
+
+	setter.SetPredefinedStrategy(&memcached.Spec).ApplyOnce(r.client, context.TODO(),memcached)
 
 	// Check if the deployment already exists, if not create a new one
 	found := &appsv1.Deployment{}

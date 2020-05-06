@@ -39,8 +39,10 @@ spec:
                 SIZE!
               format: int32
               type: integer
+            threshold:
+              format: int32
+              type: integer
           required:
-          - interval
           - size
           type: object
         status:
