@@ -3,6 +3,7 @@ package memcached
 import (
 	"context"
 	"fmt"
+	"k8s.io/kubernetes/pkg/util/env"
 	"reflect"
 
 	cachev1alpha1 "github.com/example-inc/memcached-operator/pkg/apis/cache/v1alpha1"
@@ -42,6 +43,10 @@ func Add(mgr manager.Manager) error {
 
 // newReconciler returns a new reconcile.Reconciler
 func newReconciler(mgr manager.Manager) reconcile.Reconciler {
+	reconcileSeconds,_ := env.GetEnvAsIntOrFallback("RECONCILE_REQUEUE_SECONDS", 25)
+	log.Info("NEW RECONCILER HERE")
+	log.Info( fmt.Sprintf("value: %v", reconcileSeconds ))
+
 	return &ReconcileMemcached{client: mgr.GetClient(), scheme: mgr.GetScheme()}
 }
 

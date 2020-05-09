@@ -67,7 +67,7 @@ spec:
               format: int32
               type: integer
           required:
-          - interval
+           - interval
           type: object
         ttl:
           description: MemcachedDnsTTL defines the ...
